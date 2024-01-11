@@ -1,0 +1,7 @@
+{
+  "name": "example",
+  "dependencies": {
+    "concise-motion-core": "workspace:*",
+    "typescript": "^5.3.3"
+  }
+}

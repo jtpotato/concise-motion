@@ -1,0 +1,7 @@
+{
+  "name": "concise-motion-core",
+  "module": "src/index.ts",
+  "dependencies": {
+    "typescript": "^5.3.3"
+  }
+}
