@@ -72,5 +72,11 @@ export class Project {
     const cwd = path.join(homedir(), ".cache/concise-motion");
     const projectFile = path.join(cwd, this.name, "src/project.ts");
     Bun.write(projectFile, template);
+
+    Bun.spawn(["bun", "run", "start"], {
+      cwd: path.join(cwd, this.name),
+    });
+
+    console.log("Visit http://localhost:9000/")
   }
 }

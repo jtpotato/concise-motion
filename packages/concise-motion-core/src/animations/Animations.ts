@@ -24,7 +24,7 @@ export class AnimationProperties {
   toString() {
     return `
       tween(${this.duration}, value => {
-        ref_${this.shape.uniqueID}().${this.property}(map(${this.from}, ${this.to}, value}))
+        ref_${this.shape.uniqueID}().${this.property}(map(${this.from}, ${this.to}, easeInOutCubic(value)))
       })
     `;
   }

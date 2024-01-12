@@ -1,7 +1,8 @@
+import { InitialShapeProps } from "./InitialShapeProps";
 import { Shape } from "./Shape";
 
 export class Circle extends Shape {
-  constructor() {
-    super("Circle")
+  constructor(initial: InitialShapeProps) {
+    super("Circle", initial)
   }
 }

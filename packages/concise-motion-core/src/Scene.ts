@@ -10,6 +10,7 @@ import {
 } from "./animations/Animations";
 import { animateWithAliases } from "./animations/AnimateFunc";
 import { MotionCanvasAnimationProperties } from "./animations/AnimationProperties";
+import { InitialShapeProps } from "./shapes/InitialShapeProps";
 
 export class Scene {
   shapes: Shape[];
@@ -31,8 +32,8 @@ export class Scene {
     project.registerScene(this.filename);
   }
 
-  circle() {
-    let circle = new Circle();
+  circle(initialProps: InitialShapeProps) {
+    let circle = new Circle(initialProps);
     this.imports.add("Circle", "@motion-canvas/2d");
     this.imports.add("createRef", "@motion-canvas/core");
     this.shapes.push(circle);
@@ -53,7 +54,7 @@ export class Scene {
     to: any,
     duration: number
   ) {
-    this.imports.add("map, tween", "@motion-canvas/core");
+    this.imports.add("easeInOutCubic, all, map, tween", "@motion-canvas/core");
 
     const animationProperty = animateWithAliases(
       shape,
