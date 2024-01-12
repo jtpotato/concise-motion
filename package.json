@@ -2,10 +2,10 @@
   "name": "concise-motion-monorepo",
   "private": true,
   "workspaces": [
-    "workspaces/*"
+    "packages/*"
   ],
   "scripts": {
-    "example": "bun run workspaces/example/project.ts"
+    "example": "bun run packages/example/project.ts"
   },
   "dependencies": {
     "@types/node": "^20.11.0"
