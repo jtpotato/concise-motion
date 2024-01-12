@@ -1,7 +1,7 @@
-import { Scene } from "concise-motion-core"
+import { Project, Scene } from "concise-motion-core"
 
-export function scene1() {
-  let scene = new Scene()
+export function scene1(project: Project) {
+  let scene = new Scene(project, "scene1")
 
   let circle = scene.circle()
 

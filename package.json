@@ -8,6 +8,7 @@
     "example": "bun run packages/example/project.ts"
   },
   "dependencies": {
+    "@types/bun": "^1.0.1",
     "@types/node": "^20.11.0"
   }
 }

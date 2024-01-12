@@ -1,5 +1,8 @@
+import { homedir } from "os";
 import { Circle } from "./shapes/Circle";
 import { Shape } from "./shapes/Shape";
+import path from "path";
+import { Project } from "./Project";
 
 class MotionCanvasImport {
   importName: string;
@@ -85,12 +88,16 @@ export class Scene {
   shapes: Shape[];
   imports: MotionCanvasImports;
   animationKeyframes: AnimationKeyframe[];
+  filename: string;
+  projectName: string
 
-  constructor() {
+  constructor(project: Project, filename: string) {
     this.shapes = [];
     this.imports = new MotionCanvasImports();
     this.imports.add("makeScene2D", "@motion-canvas/2d");
     this.animationKeyframes = [new AnimationKeyframe()];
+    this.filename = filename;
+    this.projectName = project.name
   }
 
   circle() {
@@ -147,5 +154,10 @@ export class Scene {
     `;
 
     console.log(template);
+
+    const cwd = path.join(homedir(), ".cache/concise-motion");
+    const sceneFile = path.join(cwd, this.projectName, "src/scenes", this.filename + ".tsx");
+
+    Bun.write(sceneFile, template)
   }
 }
