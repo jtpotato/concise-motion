@@ -3,101 +3,32 @@ import { Circle } from "./shapes/Circle";
 import { Shape } from "./shapes/Shape";
 import path from "path";
 import { Project } from "./Project";
-
-class MotionCanvasImport {
-  importName: string;
-  importPath: string;
-
-  constructor(name: string, path: string) {
-    this.importName = name;
-    this.importPath = path;
-  }
-
-  toString() {
-    return `import { ${this.importName} } from "${this.importPath}"`;
-  }
-}
-
-export class MotionCanvasImports {
-  imports: MotionCanvasImport[];
-
-  constructor() {
-    this.imports = [];
-  }
-
-  add(name: string, path: string) {
-    if (this.imports.find((importItem) => importItem.importName == name)) {
-      return;
-    }
-
-    this.imports.push(new MotionCanvasImport(name, path));
-  }
-
-  toString() {
-    return this.imports.map((importItem) => importItem.toString()).join("\n");
-  }
-}
-
-class AnimationProperties {
-  duration: number;
-  property: string;
-  shape: Shape;
-  from: any;
-  to: any;
-
-  constructor(
-    shape: Shape,
-    duration: number,
-    property: string,
-    from: any,
-    to: any
-  ) {
-    this.duration = duration;
-    this.property = property;
-    this.shape = shape;
-    this.from = from;
-    this.to = to;
-  }
-
-  toString() {
-    return `
-      tween(${this.duration}, value => {
-        ref_${this.shape.uniqueID}().${this.property}(map(${this.from}, ${this.to}, value}))
-      })
-    `;
-  }
-}
-
-class AnimationKeyframe {
-  properties: AnimationProperties[];
-
-  constructor() {
-    this.properties = [];
-  }
-
-  toString() {
-    return `
-      yield* all(
-        ${this.properties.map((property) => property.toString()).join(",\n")}
-      )
-    `;
-  }
-}
+import { MotionCanvasImports } from "./Imports";
+import {
+  AnimationKeyframe,
+  AnimationProperties,
+} from "./animations/Animations";
+import { animateWithAliases } from "./animations/AnimateFunc";
+import { MotionCanvasAnimationProperties } from "./animations/AnimationProperties";
 
 export class Scene {
   shapes: Shape[];
   imports: MotionCanvasImports;
   animationKeyframes: AnimationKeyframe[];
   filename: string;
-  projectName: string
+  projectName: string;
 
   constructor(project: Project, filename: string) {
     this.shapes = [];
     this.imports = new MotionCanvasImports();
     this.imports.add("makeScene2D", "@motion-canvas/2d");
     this.animationKeyframes = [new AnimationKeyframe()];
-    this.filename = filename;
-    this.projectName = project.name
+    this.projectName = project.name;
+
+    const uniqueID = crypto.randomUUID().replace(/-/g, "_");
+    this.filename = `${filename}_${uniqueID}`;
+
+    project.registerScene(this.filename);
   }
 
   circle() {
@@ -117,14 +48,14 @@ export class Scene {
 
   animate(
     shape: Shape,
-    property: string,
+    property: MotionCanvasAnimationProperties,
     from: any,
     to: any,
     duration: number
   ) {
     this.imports.add("map, tween", "@motion-canvas/core");
 
-    let animationProperty = new AnimationProperties(
+    const animationProperty = animateWithAliases(
       shape,
       duration,
       property,
@@ -136,8 +67,17 @@ export class Scene {
     keyframe.properties.push(animationProperty);
   }
 
-  finish() {
+  end() {
+    const cwd = path.join(homedir(), ".cache/concise-motion");
+    const sceneFile = path.join(
+      cwd,
+      this.projectName,
+      "src/scenes",
+      this.filename + ".tsx"
+    );
+
     const template = `
+    // src/scenes/${this.filename}.tsx
     ${this.imports.toString()}
 
     export default makeScene2D(function* (view) {
@@ -155,9 +95,6 @@ export class Scene {
 
     console.log(template);
 
-    const cwd = path.join(homedir(), ".cache/concise-motion");
-    const sceneFile = path.join(cwd, this.projectName, "src/scenes", this.filename + ".tsx");
-
-    Bun.write(sceneFile, template)
+    Bun.write(sceneFile, template);
   }
 }

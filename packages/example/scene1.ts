@@ -5,10 +5,10 @@ export function scene1(project: Project) {
 
   let circle = scene.circle()
 
-  scene.animate(circle, "position.x", 0, 100, 1)
+  scene.animate(circle, "x", 0, 100, 1)
   scene.keyframe()
-  scene.animate(circle, "position.x", 100, 0, 1)
+  scene.animate(circle, "x", 100, 0, 1)
   
-  scene.finish()
+  scene.end()
 }
 

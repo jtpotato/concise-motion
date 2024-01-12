@@ -1,0 +1,1 @@
+export type MotionCanvasAnimationProperties = "x" | "y" | "scale" | "scaleX" | "scaleY" | "rotation" | "opacity"

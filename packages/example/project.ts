@@ -6,3 +6,5 @@ const project = new Project("example")
 await project.init()
 
 scene1(project)
+
+project.end()
