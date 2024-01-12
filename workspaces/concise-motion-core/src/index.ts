@@ -1,5 +1,4 @@
 import { Scene } from "./Scene";
-import { Circle } from "./shapes/Circle";
-import { Shape } from "./shapes/Shape";
+import { Project } from "./Project";
 
-export { Scene };
+export { Scene, Project };

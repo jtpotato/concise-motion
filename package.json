@@ -6,5 +6,8 @@
   ],
   "scripts": {
     "example": "bun run workspaces/example/project.ts"
+  },
+  "dependencies": {
+    "@types/node": "^20.11.0"
   }
 }
