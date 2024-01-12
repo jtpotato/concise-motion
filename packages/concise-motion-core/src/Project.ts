@@ -14,19 +14,17 @@ export class Project {
   async init() {
     const userDir = homedir();
     const cwd = path.join(userDir, ".cache/concise-motion");
-    if (!fs.existsSync(path.join(cwd, this.name))) {
+    if (!fs.existsSync(path.join(cwd, "motion-canvas-project"))) {
       fs.mkdirSync(cwd, {
         recursive: true,
       });
 
-      // initialise motion canvas
-      // const bunInit = Bun.spawn(["echo", "HI!"], {
       const bunInit = Bun.spawn(["bunx", "@motion-canvas/create@latest"], {
         cwd: cwd,
         stdin: "pipe",
       });
 
-      bunInit.stdin.write(this.name + "\n");
+      bunInit.stdin.write("motion-canvas-project" + "\n");
       bunInit.stdin.flush();
       await Bun.sleep(500);
       bunInit.stdin.write("\n");
@@ -44,11 +42,11 @@ export class Project {
       console.log(text);
 
       Bun.spawn(["bun", "install"], {
-        cwd: path.join(cwd, this.name),
+        cwd: path.join(cwd, "motion-canvas-project"),
       });
     }
 
-    fs.rmSync(path.join(cwd, this.name, "src/scenes"), { recursive: true, force: true });
+    fs.rmSync(path.join(cwd, "motion-canvas-project", "src/scenes"), { recursive: true, force: true });
   }
 
   registerScene(name: string) {
@@ -69,14 +67,12 @@ export class Project {
 
     console.log(template);
 
-    const cwd = path.join(homedir(), ".cache/concise-motion");
-    const projectFile = path.join(cwd, this.name, "src/project.ts");
-    Bun.write(projectFile, template);
+    const cwd = path.join(homedir(), ".cache/concise-motion", "motion-canvas-project");
 
-    Bun.spawn(["bun", "run", "start"], {
-      cwd: path.join(cwd, this.name),
-    });
+    Bun.write(path.join(cwd, "src/project.ts"), template);
 
-    console.log("Visit http://localhost:9000/")
+    console.log("Open a new terminal with the following:")
+    console.log(`cd ${cwd}`)
+    console.log(`bun run start`)
   }
 }

@@ -1,6 +1,5 @@
 import { homedir } from "os";
-import { Circle } from "./shapes/Circle";
-import { Shape } from "./shapes/Shape";
+import { InitialShapeProps, Shape, ShapeType } from "./shapes/Shape";
 import path from "path";
 import { Project } from "./Project";
 import { MotionCanvasImports } from "./Imports";
@@ -10,7 +9,6 @@ import {
 } from "./animations/Animations";
 import { animateWithAliases } from "./animations/AnimateFunc";
 import { MotionCanvasAnimationProperties } from "./animations/AnimationProperties";
-import { InitialShapeProps } from "./shapes/InitialShapeProps";
 
 export class Scene {
   shapes: Shape[];
@@ -18,6 +16,8 @@ export class Scene {
   animationKeyframes: AnimationKeyframe[];
   filename: string;
   projectName: string;
+
+  background: string = "#000";
 
   constructor(project: Project, filename: string) {
     this.shapes = [];
@@ -32,13 +32,13 @@ export class Scene {
     project.registerScene(this.filename);
   }
 
-  circle(initialProps: InitialShapeProps) {
-    let circle = new Circle(initialProps);
-    this.imports.add("Circle", "@motion-canvas/2d");
+  shape(name: ShapeType, initialProps: InitialShapeProps) {
+    let shape = new Shape(name, initialProps);
+    this.imports.add(name, "@motion-canvas/2d");
     this.imports.add("createRef", "@motion-canvas/core");
-    this.shapes.push(circle);
+    this.shapes.push(shape);
 
-    return circle;
+    return shape;
   }
 
   keyframe() {
@@ -72,7 +72,7 @@ export class Scene {
     const cwd = path.join(homedir(), ".cache/concise-motion");
     const sceneFile = path.join(
       cwd,
-      this.projectName,
+      "motion-canvas-project",
       "src/scenes",
       this.filename + ".tsx"
     );
@@ -82,10 +82,14 @@ export class Scene {
     ${this.imports.toString()}
 
     export default makeScene2D(function* (view) {
+      view.fill("${this.background}")
+
       ${this.shapes.map((shape) => shape.generateRef()).join("\n")}
 
       view.add(
-        ${this.shapes.map((shape) => shape.generateJSX()).join(",\n")}
+        <>
+        ${this.shapes.map((shape) => shape.generateJSX()).join("\n")}
+        </>
       )
 
       ${this.animationKeyframes
