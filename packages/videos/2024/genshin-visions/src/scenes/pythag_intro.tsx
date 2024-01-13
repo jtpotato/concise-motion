@@ -1,5 +1,5 @@
 import { Circle, Latex, Line, Rect, Shape, makeScene2D } from '@motion-canvas/2d';
-import { Reference, all, createRef, delay, tween, waitFor } from '@motion-canvas/core';
+import { Reference, all, createRef, delay, tween, waitFor, waitUntil } from '@motion-canvas/core';
 import { fadeOut, fadeToPos, latexDefaults, shapeDefaults, trace, triangle } from "concise-motion-core"
 
 export default makeScene2D(function* (view) {
@@ -23,9 +23,11 @@ export default makeScene2D(function* (view) {
     fadeToPos(latex1, [200, 0])
   )
 
+  yield* waitUntil("i'll never know")
+
   yield* all(
     fadeOut(line1),
     delay(0.5, fadeOut(latex1))
   )
-  yield* waitFor(1)
+  yield* waitFor(0.1)
 });
