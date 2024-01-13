@@ -30,4 +30,6 @@ export default makeScene2D(function* (view) {
     delay(0.5, fadeOut(latex1))
   )
   yield* waitFor(0.1)
+
+  yield* waitUntil("my ability to illustrate")
 });
