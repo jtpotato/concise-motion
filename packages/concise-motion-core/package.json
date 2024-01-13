@@ -3,6 +3,8 @@
   "module": "src/index.ts",
   "main": "src/index.ts",
   "dependencies": {
+    "@motion-canvas/2d": "^3.13.0",
+    "@motion-canvas/core": "^3.13.0",
     "typescript": "^5.3.3"
   }
 }
