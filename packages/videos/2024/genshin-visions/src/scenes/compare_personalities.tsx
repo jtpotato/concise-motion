@@ -38,7 +38,7 @@ export default makeScene2D(function* (view) {
     line1().end(1, 2),
   )
 
-  yield* floatingProgress(1, 5)
+  yield* floatingProgress(1, 3)
 
   yield* fadeOut(line1)
 

@@ -29,6 +29,4 @@ export default makeScene2D(function* (view) {
   yield* waitFor(1)
 
   yield* codeRef().edit(1, false)`${edit('const visions = f(personality)', '')}`
-
-  yield* waitUntil("difficult to compare")
 })

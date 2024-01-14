@@ -29,7 +29,7 @@ export default makeScene2D(function* (view) {
     `} language="ts" scale={0.8} />
   </>)
 
-  yield* codeRef().edit(4)`
+  yield* codeRef().edit(1.5)`
   ${edit('', 'function euclidianDistance(array1: number[], array2: number[]) {')}
     const differences = [];
     for (let i = 0; i < array1.length; i++) {
