@@ -1,6 +1,8 @@
 import { PossibleVector2, SignalValue } from "@motion-canvas/core";
 
-
+/**
+ * Generates points for a triangle, based on `scaleX` and `scaleY` values, centred around the origin.
+ */
 export function triangle(scaleX: number, scaleY: number) {
   let trianglePoints = [
     [0, 0],
