@@ -1,12 +1,9 @@
-import { Curve, Shape } from "@motion-canvas/2d";
-import {
-  Reference,
-  all,
-} from "@motion-canvas/core";
+import { Curve, Node, Shape } from "@motion-canvas/2d";
+import { Reference, all } from "@motion-canvas/core";
 import { shapeDefaults } from "./shapeDefaults";
 import { fadeToPos } from "./fadeToPos";
 import { triangle } from "./triangle";
-import { potentialRefToShape } from "./refToShape";
+import { potentialRefToNode } from "./refToShape";
 import { cascade } from "./cascade";
 
 /**
@@ -30,9 +27,13 @@ export function latexDefaults() {
 /**
  * Fades a given Shape or Curve out, moving it to the origin simultaneously. Happens over `1` second.
  */
-export function fadeOut(shape: Reference<Shape> | Reference<Curve> | Shape) {
-  const shapeObject = potentialRefToShape(shape)
-  return all(shapeObject.opacity(0, 1), shapeObject.x(0, 1), shapeObject.y(0, 1));
+export function fadeOut<T extends Node>(shape: Reference<T> | T) {
+  const shapeObject = potentialRefToNode(shape);
+  return all(
+    shapeObject.opacity(0, 1),
+    shapeObject.x(0, 1),
+    shapeObject.y(0, 1)
+  );
 }
 
-export { shapeDefaults, fadeToPos, triangle, cascade }
+export { shapeDefaults, fadeToPos, triangle, cascade };

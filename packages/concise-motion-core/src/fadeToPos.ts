@@ -1,13 +1,13 @@
 import { Shape } from "@motion-canvas/2d";
-import { Reference, all, delay } from "@motion-canvas/core";
-import { potentialRefToShape } from "./refToShape";
+import { Reference, ThreadGenerator, all, delay } from "@motion-canvas/core";
+import { potentialRefToNode } from "./refToShape";
 
-export function fadeToPos(
-  shape: Reference<Shape> | Shape,
+export function fadeToPos<T extends Shape>(
+  shape: Reference<T> | T,
   position?: [number, number],
   delayTime: number = 0
-) {
-  const shapeObject = potentialRefToShape(shape);
+): ThreadGenerator {
+  const shapeObject = potentialRefToNode(shape);
 
   if (position) {
     return delay(

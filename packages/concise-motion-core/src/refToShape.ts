@@ -1,7 +1,7 @@
-import { Curve, Shape } from "@motion-canvas/2d";
+import { Curve, Node, Shape } from "@motion-canvas/2d";
 import { Reference } from "@motion-canvas/core";
 
-export function potentialRefToShape(shape: Reference<Shape> | Reference<Curve> | Shape) {
+export function potentialRefToNode<T extends Node>(shape: Reference<T> | T): T {
   let shapeObject = null;
   // if is Reference<Shape>
   if (shape instanceof Function) {

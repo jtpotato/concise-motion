@@ -2,7 +2,7 @@ import { Rect, makeScene2D } from "@motion-canvas/2d";
 import { CodeBlock, edit } from '@motion-canvas/2d/lib/components/CodeBlock';
 import { all, createRef, createRefMap, waitFor, waitUntil } from "@motion-canvas/core";
 import { cascade, fadeToPos } from "concise-motion-core";
-import { PointCloud } from "../components/PointCloud";
+import { PointCloud } from "concise-motion-core/src/components/PointCloud";
 
 export default makeScene2D(function* (view) {
   // Create your animations here
