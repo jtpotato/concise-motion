@@ -18,13 +18,13 @@ export default makeScene2D(function* (view) {
         ref={codeRef}
         language="js"
         code={``} />
-      <PointCloud label="Pyro" ref={pointClouds.pyro} x={-500} y={300} color={"#ff0000"} />
-      <PointCloud label="Cryo" ref={pointClouds.cryo} x={-200} y={100} color={"rgb(88, 188, 241)"} />
-      <PointCloud label="Hydro" ref={pointClouds.hydro} x={100} y={400} color={"#2b63f3"} />
-      <PointCloud label="Electro" ref={pointClouds.electro} x={-300} y={-200} />
-      <PointCloud label="Geo" ref={pointClouds.geo} x={300} y={-400} />
-      <PointCloud label="Anemo" ref={pointClouds.anemo} x={150} y={0} />
-      <PointCloud label="Dendro" ref={pointClouds.dendro} x={500} y={10} />
+      <PointCloud label="Pyro" ref={pointClouds.pyro} x={-500} y={300} color={"#bc0000"} radius={150} />
+      <PointCloud label="Cryo" ref={pointClouds.cryo} x={-200} y={100} color={"#b9dfe4"} radius={150} />
+      <PointCloud label="Hydro" ref={pointClouds.hydro} x={100} y={400} color={"#2b63f3"} radius={150} />
+      <PointCloud label="Electro" ref={pointClouds.electro} x={-300} y={-200} color={"#bf00ff"} radius={150} />
+      <PointCloud label="Geo" ref={pointClouds.geo} x={300} y={-400} color={"#E5BB54"} radius={150} />
+      <PointCloud label="Anemo" ref={pointClouds.anemo} x={150} y={0} color={"#6EC1AD"} radius={150} />
+      <PointCloud label="Dendro" ref={pointClouds.dendro} x={500} y={100} color={"#85BE54"} radius={150} />
     </Rect>
 
   )
@@ -41,11 +41,21 @@ export default makeScene2D(function* (view) {
 
   yield* all(
     pointClouds.pyro().show(),
-    pointClouds.cryo().show(0.5),
-    pointClouds.hydro().show(1),
-    pointClouds.electro().show(1.5),
-    pointClouds.geo().show(2),
-    pointClouds.anemo().show(2.5),
-    pointClouds.dendro().show(3),
+    pointClouds.cryo().show(0.2),
+    pointClouds.hydro().show(0.4),
+    pointClouds.electro().show(0.6),
+    pointClouds.geo().show(0.8),
+    pointClouds.anemo().show(1),
+    pointClouds.dendro().show(1.2),
+  )
+  // hide all with delay
+  yield* all(
+    pointClouds.pyro().hide(),
+    pointClouds.cryo().hide(0.2),
+    pointClouds.hydro().hide(0.4),
+    pointClouds.electro().hide(0.6),
+    pointClouds.geo().hide(0.8),
+    pointClouds.anemo().hide(1),
+    pointClouds.dendro().hide(1.2),
   )
 })

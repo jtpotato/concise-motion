@@ -1,10 +1,16 @@
 import { Circle, Node, NodeProps, Rect, Txt, colorSignal, initial, signal } from "@motion-canvas/2d";
 import { ColorSignal, PossibleColor, SignalValue, SimpleSignal, all, createRef, delay, range } from "@motion-canvas/core";
-import { fadeToPos } from "concise-motion-core";
+import { fadeOut, fadeToPos } from "concise-motion-core";
 
 export interface PointCloudProps extends NodeProps {
+  /** Colour of point cloud */
   color?: SignalValue<PossibleColor>,
+  /** Label of the point cloud */
   label?: SignalValue<string>,
+  /** Radius of the point cloud */
+  radius?: SignalValue<number>,
+  /** Number of dots in the cloud */
+  qty?: SignalValue<number>,
 }
 
 
@@ -19,6 +25,12 @@ export class PointCloud extends Node {
 
   @signal()
   public declare readonly label: SimpleSignal<string, this>;
+  @initial(300)
+  @signal()
+  public declare readonly radius: SimpleSignal<number, this>;
+  @initial(16)
+  @signal()
+  public declare readonly qty: SimpleSignal<number, this>;
 
   private readonly container = createRef<Rect>();
   private readonly labelRef = createRef<Rect>();
@@ -28,7 +40,7 @@ export class PointCloud extends Node {
       ...props
     })
 
-    const cloudPool = range(16).map(() => <Circle width={32} height={32} x={Math.random() * 300 - 150} y={Math.random() * 300 - 150} fill={this.color} opacity={0} />)
+    const cloudPool = range(this.qty()).map(() => <Circle width={32} height={32} x={Math.random() * this.radius() * 2 - this.radius()} y={Math.random() * this.radius() * 2 - this.radius()} fill={this.color} opacity={0} />)
 
     this.add(<>
       <Rect ref={this.container}>
@@ -36,7 +48,7 @@ export class PointCloud extends Node {
         <Rect ref={this.labelRef} opacity={0}>
           {this.label ?
             <Rect fill={this.color} layout padding={16} paddingTop={24} radius={15}>
-              <Txt text={props.label} fill={"#ffffff"} x={0} y={0} fontFamily={"monospace"} fontSize={40} />
+              <Txt text={this.label()} fill={"#ffffff"} x={0} y={0} fontFamily={"monospace"} fontSize={40} />
             </Rect>
             : null}
         </Rect>
@@ -49,6 +61,13 @@ export class PointCloud extends Node {
     yield* delay(delayTime, all(
       ...spawnedDots.map((dot, index) => fadeToPos(dot, [dot.x(), dot.y()], index / 16)),
       fadeToPos(this.labelRef, [this.labelRef().x(), this.labelRef().y()])
+    ))
+  }
+
+  public *hide(delayTime: number = 0) {
+    let spawnedDots = this.container().childrenAs<Circle>()
+    yield* delay(delayTime, all(
+      ...spawnedDots.map((dot, index) => delay(index / 16, fadeOut(dot))),
     ))
   }
 }

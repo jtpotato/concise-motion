@@ -1,19 +1,13 @@
 import { Shape } from "@motion-canvas/2d";
 import { Reference, all, delay } from "@motion-canvas/core";
+import { potentialRefToShape } from "./refToShape";
 
 export function fadeToPos(
   shape: Reference<Shape> | Shape,
   position?: [number, number],
   delayTime: number = 0
 ) {
-  let shapeObject = null;
-  // if is Reference<Shape>
-  if (shape instanceof Function) {
-    shapeObject = shape();
-  }
-  else {
-    shapeObject = shape;
-  }
+  const shapeObject = potentialRefToShape(shape);
 
   if (position) {
     return delay(
