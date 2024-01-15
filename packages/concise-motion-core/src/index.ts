@@ -1,17 +1,9 @@
-import { Curve, Node, Shape } from "@motion-canvas/2d";
-import { Reference, all } from "@motion-canvas/core";
 import { shapeDefaults } from "./shapeDefaults";
-import { fadeToPos } from "./fadeToPos";
+import { fadeToPos } from "./animation/fadeToPos";
 import { triangle } from "./triangle";
-import { potentialRefToNode } from "./refToShape";
-import { cascade } from "./cascade";
-
-/**
- * Traces a Curve from start to finish over 2 seconds.
- */
-export function trace(line: Reference<Curve>) {
-  return line().end(1, 2);
-}
+import { cascade } from "./animation/cascade";
+import { fadeOut } from "./animation/fadeOut";
+import { trace } from "./animation/trace";
 
 /**
  * Returns the default values for LaTeX.
@@ -24,16 +16,4 @@ export function latexDefaults() {
   };
 }
 
-/**
- * Fades a given Shape or Curve out, moving it to the origin simultaneously. Happens over `1` second.
- */
-export function fadeOut<T extends Node>(shape: Reference<T> | T) {
-  const shapeObject = potentialRefToNode(shape);
-  return all(
-    shapeObject.opacity(0, 1),
-    shapeObject.x(0, 1),
-    shapeObject.y(0, 1)
-  );
-}
-
-export { shapeDefaults, fadeToPos, triangle, cascade };
+export { shapeDefaults, fadeToPos, triangle, cascade, fadeOut, trace };

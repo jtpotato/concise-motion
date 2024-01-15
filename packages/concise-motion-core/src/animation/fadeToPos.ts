@@ -1,6 +1,6 @@
 import { Shape } from "@motion-canvas/2d";
 import { Reference, ThreadGenerator, all, delay } from "@motion-canvas/core";
-import { potentialRefToNode } from "./refToShape";
+import { potentialRefToNode } from "../refToShape";
 
 export function fadeToPos<T extends Shape>(
   shape: Reference<T> | T,

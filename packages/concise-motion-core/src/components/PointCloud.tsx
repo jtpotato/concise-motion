@@ -1,6 +1,7 @@
 import { Circle, Node, NodeProps, Rect, Shape, Txt, colorSignal, initial, signal } from "@motion-canvas/2d";
 import { ColorSignal, PossibleColor, SignalValue, SimpleSignal, all, createRef, delay, range } from "@motion-canvas/core";
-import { fadeOut, fadeToPos } from "concise-motion-core";
+import { fadeToPos } from "concise-motion-core";
+import { fadeOut } from "../animation/fadeOut";
 
 export interface PointCloudProps extends NodeProps {
   /** Colour of point cloud */
