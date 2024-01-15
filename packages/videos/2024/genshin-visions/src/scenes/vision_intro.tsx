@@ -1,7 +1,7 @@
 import { Rect, makeScene2D } from "@motion-canvas/2d";
 import { CodeBlock, edit } from '@motion-canvas/2d/lib/components/CodeBlock';
 import { all, createRef, createRefMap, waitFor, waitUntil } from "@motion-canvas/core";
-import { fadeToPos } from "concise-motion-core";
+import { cascade, fadeToPos } from "concise-motion-core";
 import { PointCloud } from "../components/PointCloud";
 
 export default makeScene2D(function* (view) {
@@ -40,22 +40,26 @@ export default makeScene2D(function* (view) {
   yield* codeRef().edit(1, false)`${edit('const visions = f(personality)', '')}`
 
   yield* all(
-    pointClouds.pyro().show(),
-    pointClouds.cryo().show(0.2),
-    pointClouds.hydro().show(0.4),
-    pointClouds.electro().show(0.6),
-    pointClouds.geo().show(0.8),
-    pointClouds.anemo().show(1),
-    pointClouds.dendro().show(1.2),
+    cascade(0.1,
+      pointClouds.pyro().show(),
+      pointClouds.cryo().show(),
+      pointClouds.hydro().show(),
+      pointClouds.electro().show(),
+      pointClouds.geo().show(),
+      pointClouds.anemo().show(),
+      pointClouds.dendro().show(),
+    )
   )
   // hide all with delay
   yield* all(
-    pointClouds.pyro().hide(),
-    pointClouds.cryo().hide(0.2),
-    pointClouds.hydro().hide(0.4),
-    pointClouds.electro().hide(0.6),
-    pointClouds.geo().hide(0.8),
-    pointClouds.anemo().hide(1),
-    pointClouds.dendro().hide(1.2),
+    cascade(0.1,
+      pointClouds.pyro().hide(),
+      pointClouds.cryo().hide(),
+      pointClouds.hydro().hide(),
+      pointClouds.electro().hide(),
+      pointClouds.geo().hide(),
+      pointClouds.anemo().hide(),
+      pointClouds.dendro().hide(),
+    )
   )
 })

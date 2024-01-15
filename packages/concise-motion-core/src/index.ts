@@ -7,6 +7,7 @@ import { shapeDefaults } from "./shapeDefaults";
 import { fadeToPos } from "./fadeToPos";
 import { triangle } from "./triangle";
 import { potentialRefToShape } from "./refToShape";
+import { cascade } from "./cascade";
 
 /**
  * Traces a Curve from start to finish over 2 seconds.
@@ -34,4 +35,4 @@ export function fadeOut(shape: Reference<Shape> | Reference<Curve> | Shape) {
   return all(shapeObject.opacity(0, 1), shapeObject.x(0, 1), shapeObject.y(0, 1));
 }
 
-export { shapeDefaults, fadeToPos, triangle }
+export { shapeDefaults, fadeToPos, triangle, cascade }
