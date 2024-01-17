@@ -4,6 +4,7 @@ import { triangle } from "./triangle";
 import { cascade } from "./animation/cascade";
 import { fadeOut, fadeOutLine } from "./animation/fadeOut";
 import { trace } from "./animation/trace";
+import { fadeInFrom } from "./animation/fadeInFrom";
 
 /**
  * Returns the default values for LaTeX.
@@ -16,4 +17,4 @@ export function latexDefaults() {
   };
 }
 
-export { shapeDefaults, fadeToPos, triangle, cascade, fadeOut, fadeOutLine, trace };
+export { shapeDefaults, fadeToPos, triangle, cascade, fadeOut, fadeOutLine, trace, fadeInFrom };
