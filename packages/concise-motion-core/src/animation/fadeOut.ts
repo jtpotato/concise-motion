@@ -20,7 +20,7 @@ export function fadeOutLine<T extends Line>(shape: Reference<T> | T) {
   const shapeObject = potentialRefToNode(shape);
 
   return all(
-    // shapeObject.opacity(0, 1),
+    shapeObject.opacity(0, 0.8),
     shapeObject.x(0, 1),
     shapeObject.y(0, 1),
     shapeObject.start(1, 1),
