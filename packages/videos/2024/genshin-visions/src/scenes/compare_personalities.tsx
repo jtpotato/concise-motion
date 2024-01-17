@@ -1,6 +1,6 @@
-import { Circle, Line, makeScene2D, Txt } from "@motion-canvas/2d";
-import { PossibleVector2, SignalValue, all, createRef, createSignal, delay, waitUntil } from "@motion-canvas/core";
-import { fadeOut, fadeToPos, shapeDefaults } from "concise-motion-core";
+import { Circle, Line, makeScene2D, Rect, Txt } from "@motion-canvas/2d";
+import { PossibleVector2, SignalValue, Vector2, all, createRef, createSignal, delay, waitUntil } from "@motion-canvas/core";
+import { cascade, fadeOut, fadeOutLine, fadeToPos, shapeDefaults } from "concise-motion-core";
 
 export default makeScene2D(function* (view) {
   view.fill('black')
@@ -10,44 +10,49 @@ export default makeScene2D(function* (view) {
   const line1 = createRef<Line>()
   const distanceLabel = createRef<Txt>()
 
-  const floatingProgress = createSignal(0)
+  const viewRef = createRef<Rect>()
 
-  function calculateDistance(progress: number) {
-    const ax = -500
-    const ay = 300 + progress * -600
+  const circle1PosX = createSignal(-500)
+  const circle1PosY = createSignal(300)
+  const circle2PosX = createSignal(500)
+  const circle2PosY = createSignal(-300)
 
-    const bx = 500
-    const by = -300 + progress * 600
-
-    const d = Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2)) / 100
-
+  function calculateDistance(pos1: PossibleVector2, pos2: PossibleVector2) {
+    const vpos1 = new Vector2(pos1)
+    const vpos2 = new Vector2(pos2)
+    const d = Math.sqrt(Math.pow(vpos1.x - vpos2.x, 2) + Math.pow(vpos1.y - vpos2.y, 2)) / 100
     return d.toFixed(2)
   }
 
   view.add(<>
-    <Circle {...shapeDefaults()} width={32} height={32} ref={circle1} x={-500} y={() => 300 + floatingProgress() * -600} opacity={1}>
+    <Rect ref={viewRef}>
+      <Circle {...shapeDefaults()} width={32} height={32} ref={circle1} x={() => circle1PosX()} y={() => circle1PosY()} opacity={1}>
 
-    </Circle>
-    <Circle {...shapeDefaults()} width={32} height={32} ref={circle2} x={500} y={() => -300 + floatingProgress() * 600} opacity={1}>
-      <Txt ref={distanceLabel} text={() => "d = " + calculateDistance(floatingProgress())} fill={"#eedd00"} x={150} y={0} fontFamily={"monospace"} fontSize={40} />
-    </Circle>
-    <Line ref={line1} lineWidth={4} stroke={"#77aaff"} points={() => [[-500, 300 + floatingProgress() * -600], [500, -300 + floatingProgress() * 600]]} end={0} lineDash={[16]} zIndex={-5} />
+      </Circle>
+      <Circle {...shapeDefaults()} width={32} height={32} ref={circle2} x={() => circle2PosX()} y={() => circle2PosY()} opacity={1}>
+        <Txt ref={distanceLabel} text={() => "d = " + calculateDistance([circle1PosX(), circle1PosY()], [circle2PosX(), circle2PosY()])} fill={"#eedd00"} x={150} y={0} fontFamily={"monospace"} fontSize={40} />
+      </Circle>
+      <Line ref={line1} points={() => [[circle1PosX(), circle1PosY()], [circle2PosX(), circle2PosY()]]} lineWidth={4} stroke={"#77aaff"} end={0} lineDash={[16]} zIndex={-5} />
+    </Rect>
   </>)
 
+  yield* viewRef().opacity(0, 0).to(1, 1)
+
   yield* all(
-    line1().end(1, 2),
+    line1().end(1, 1),
   )
 
-  yield* floatingProgress(1, 3)
-
-  yield* fadeOut(line1)
-
   yield* all(
+    circle1PosY(-300, 2),
+    circle2PosY(300, 2)
+  )
+
+  yield* cascade(0.5,
+    fadeOutLine(line1),
     fadeOut(distanceLabel),
-    delay(0.5,
-      all(
-        fadeOut(circle1),
-        fadeOut(circle2)
-      ))
+    all(
+      fadeOut(circle1),
+      fadeOut(circle2)
+    )
   )
 })

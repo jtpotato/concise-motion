@@ -16,5 +16,5 @@ jobs:
           bun-version: latest
       - run: bun install
       - name: Check Types
-        run: cd ./packages/concise-motion-core && bun run prepare
+        run: cd ./packages/concise-motion-core && bun run test
           

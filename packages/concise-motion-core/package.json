@@ -3,7 +3,7 @@
   "module": "src/index.ts",
   "main": "src/index.ts",
   "scripts": {
-    "prepare": "tsc --noEmit -p ."
+    "test": "tsc --noEmit -p ."
   },
   "dependencies": {
     "@motion-canvas/2d": "^3.13.0",

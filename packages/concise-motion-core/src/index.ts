@@ -2,7 +2,7 @@ import { shapeDefaults } from "./shapeDefaults";
 import { fadeToPos } from "./animation/fadeToPos";
 import { triangle } from "./triangle";
 import { cascade } from "./animation/cascade";
-import { fadeOut } from "./animation/fadeOut";
+import { fadeOut, fadeOutLine } from "./animation/fadeOut";
 import { trace } from "./animation/trace";
 
 /**
@@ -16,4 +16,4 @@ export function latexDefaults() {
   };
 }
 
-export { shapeDefaults, fadeToPos, triangle, cascade, fadeOut, trace };
+export { shapeDefaults, fadeToPos, triangle, cascade, fadeOut, fadeOutLine, trace };

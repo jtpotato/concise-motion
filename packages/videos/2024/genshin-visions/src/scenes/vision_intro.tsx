@@ -40,7 +40,7 @@ export default makeScene2D(function* (view) {
   yield* codeRef().edit(1, false)`${edit('const visions = f(personality)', '')}`
 
   yield* all(
-    cascade(0.1,
+    cascade(0.2,
       pointClouds.pyro().show(),
       pointClouds.cryo().show(),
       pointClouds.hydro().show(),
