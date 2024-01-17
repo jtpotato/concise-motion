@@ -1,4 +1,4 @@
-import { Curve, Node, Shape } from "@motion-canvas/2d";
+import { Node } from "@motion-canvas/2d";
 import { Reference } from "@motion-canvas/core";
 
 export function potentialRefToNode<T extends Node>(shape: Reference<T> | T): T {
