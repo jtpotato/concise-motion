@@ -60,7 +60,7 @@ export class PointCloud extends Node {
   public *show(delayTime: number = 0) {
     let spawnedDots = this.container().childrenAs<Circle>()
     yield* delay(delayTime, all(
-      ...spawnedDots.map((dot, index) => fadeToPos(dot, [dot.x(), dot.y()], index / 8)),
+      ...spawnedDots.map((dot, index) => fadeToPos(dot, [dot.x(), dot.y()], index / 12)),
       fadeToPos(this.labelRef, [this.labelRef().x(), this.labelRef().y()])
     ))
   }
@@ -68,7 +68,7 @@ export class PointCloud extends Node {
   public *hide(delayTime: number = 0) {
     let spawnedDots = this.container().childrenAs<Circle>()
     yield* delay(delayTime, all(
-      ...spawnedDots.map((dot, index) => delay(index / 8, fadeOut(dot))),
+      ...spawnedDots.map((dot, index) => delay(index / 12, fadeOut(dot))),
     ))
   }
 }
