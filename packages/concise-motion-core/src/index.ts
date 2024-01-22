@@ -6,6 +6,8 @@ import { fadeOut, fadeOutLine } from "./animation/fadeOut";
 import { trace } from "./animation/trace";
 import { fadeInFrom } from "./animation/fadeInFrom";
 import { PointCloud } from "./components/PointCloud";
+import { Spawner } from "./components/Spawner";
+import { textDefaults } from "./textDefaults";
 
 /**
  * Returns the default values for LaTeX.
@@ -18,4 +20,4 @@ export function latexDefaults() {
   };
 }
 
-export { shapeDefaults, fadeToPos, triangle, cascade, fadeOut, fadeOutLine, trace, fadeInFrom, PointCloud };
+export { shapeDefaults, textDefaults, fadeToPos, triangle, cascade, fadeOut, fadeOutLine, trace, fadeInFrom, PointCloud, Spawner };
